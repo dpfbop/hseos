@@ -1,12 +1,17 @@
 #!/usr/bin/env bash
 
 echo "Removing files from $1 folder"
+cd $1
 
 echo "Enter pattern: "
-read pattern
+while read pattern
+do
 echo "Removing files matching pattern $pattern"
-cd $1
 for filename in $pattern 
 do
-    echo "$filename"
+    echo "Removing $filename"
+    rm "$filename"
+done
+echo "Enter pattern: "
 done 
+echo "Exiting!"
