@@ -5,21 +5,35 @@
 
 using namespace std;
 
+void besum(istream& file)
+{
+    long long sum = 0;
+    char * buffer = new char [4];
+    while (!file.eof()) {
+        file.read(buffer, 4);
+        if (file.eof()) {
+            break;
+        }
+        unsigned int number = 0;
+        for (int i = 0; i < 4; ++i) {
+            number += (unsigned int)buffer[i] * (1 << (i * 8));
+        }
+        sum += number;
+    } 
+    cout << sum << endl;
+}
+
 int main(int argc, char *argv[]) {
     for (size_t i = 1; i < (size_t) argc; ++i) {
         string filename(argv[i]);
-        ifstream file(filename, ios::in | ios::binary);
+        if (filename == "-") {
+            besum(cin);
+        } else {
+            ifstream file(filename);
+            besum(file);
+        }
 
-        char * buffer = new char [4];
-        do {
-            file.read(buffer, 4);
-            cout << buffer[0] << buffer[1] << buffer[2] << buffer[3] << endl;
-            unsigned int x;   
-            stringstream ss;
-            ss << std::hex << buffer[0] << buffer[1] << buffer[2] << buffer[3];
-            ss >> x;
-            cout << x;
-        } while (!file.eof());
+        
     }
 }
 
